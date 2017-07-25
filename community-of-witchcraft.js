@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Community of Witchcraft
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Wicken/Witchery/Hoodoo/Voodoo for Bashing the Trolls with the Ban Stick
 // @author       ryan.clarke@xero.com
 // @match        https://community.livestage6.test.xero.com/business/admin/roles*
@@ -28,4 +28,6 @@
     }
 })();
 
-// Bob's ur uncle
+// ChangeLog
+// 1.0 Initial Release
+// 1.1 Adds wildcards for matches and adds array length to support easily adding more GIF
