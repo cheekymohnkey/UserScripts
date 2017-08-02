@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Community of Witchcraft
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Wicken/Witchery/Hoodoo/Voodoo for Bashing the Trolls with the Ban Stick
 // @author       ryan.clarke@xero.com
 // @match        https://community.livestage6.test.xero.com/business/admin/roles*
@@ -21,8 +21,10 @@
         var x = document.getElementsByClassName("message");
         if(x[0] !== undefined) {
             if(x[0].innerHTML.indexOf("You have suspended") != -1) {
-                x[0].innerHTML = x[0].innerHTML + '<p><img style="border-radius: 8px" src="' + randomWitch + '" alt="Hark I hear a Witchy Cackle as the Dark Arts of Banning and Suspension are Invoked" title="Hark I hear a Witchy Cackle as the Dark Arts of Banning and Suspension are Invoked" height="300"/></p>';
+                x[0].innerHTML = x[0].innerHTML + '<p><img style="border-radius: 8px" src="' + randomWitch + '" alt="Hark I hear a Witchy Cackle as the Dark Arts of Banning and Suspension are Invoked" title="Hark I hear a Witchy Cackle as the Dark Arts of Banning and Suspension are Invoked" height="300"/><audio id="audio" src="http://johnparsons.nz/sites/default/files/Maniacal%20Witches%20Laugh-SoundBible.com-262127569.mp3" autostart="true" ></audio></p>';
                 clearInterval(myTimer);
+                var sound = document.getElementById("audio");
+                sound.play();
             }
         }
     }
@@ -31,3 +33,4 @@
 // ChangeLog
 // 1.0 Initial Release
 // 1.1 Adds wildcards for matches and adds array length to support easily adding more GIF
+// 1.2 Adds witches cackle sound
