@@ -8,7 +8,7 @@
 // @grant        none
 // ==/UserScript==
 
-var newRelicCode = "APARAT";
+var newRelicCode = "ASARAT";
 
 (function() {
     'use strict';
