@@ -1,0 +1,26 @@
+<html>
+   <head>
+      <title>JavaScript Dates</title>
+   </head>
+   <body>
+	  Hours: <input type="text" id="hours"><br>
+	  Minutes: <input type="text" id="minutes"><br>
+	  <input type="button" onclick="Calculate();" value="Calculate" /><br>
+	  <div id="output"></div>
+	  <script>
+         function Calculate() {
+		 var outputString = "";
+		 var hours = document.getElementById("hours").value;
+		 var minutes = document.getElementById("minutes").value;
+		 var dt = new Date();
+         
+		 dt.setHours(dt.getHours() + parseInt(hours));
+         dt.setMinutes(dt.getMinutes() + parseInt(minutes));
+         outputString += ("<br>Updated Date: "+dt);
+		 outputString += ("<br>UTC Date: " + dt.toUTCString());
+		 console.log(outputString);
+		document.getElementById("output").innerHTML=outputString;
+		 }
+      </script>
+   </body>
+</html>
