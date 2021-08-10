@@ -24,9 +24,9 @@
                     Dropdown button
                 </button>
                 <div class="dropdown-menu" aria-labelledby="presets">
-                    <a class="dropdown-item" href="#">Optimal PVP Ratio 65/8/27</a>
-                    <a class="dropdown-item" href="#">Common Trap Ratio 5/30/65</a>
-                    <a class="dropdown-item" href="#">Old PVP Ratio 60/10/30</a>
+                    <a class="dropdown-item" href="#" id="65827">Optimal PVP Ratio 65/8/27</a>
+                    <a class="dropdown-item" href="#" id="53065">Common Trap Ratio 5/30/65</a>
+                    <a class="dropdown-item" href="#" id="601030">Old PVP Ratio 60/10/30</a>
                 </div>
             </div>
             <label for="infantry" class="formlabel">Infantry % (numbers only)</label><input type="number" id="infantry"
@@ -85,6 +85,9 @@
                 $("#marchHunters").text(hunters + " Hunters");
                 $("#result").show();
 
+            });
+            $(".dropdown-menu a").click(function(o) {
+                alert(o.id);
             });
         });
     </script>
