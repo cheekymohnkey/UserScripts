@@ -62,6 +62,10 @@
                 $("#error").hide();
                 $("#result").hide();
                 var marchSize = parseInt($("#marchsize").val());
+                if (marchSize < 100) {
+                    $("#error").text("Please enter a march size of 100 or more troops.").show();
+                    return;
+                }
                 var infantryRatio = parseInt($("#infantry").val()) / 100;
                 var ridersRatio = parseInt($("#riders").val()) / 100;
                 var huntersRatio = parseInt($("#hunters").val()) / 100;
