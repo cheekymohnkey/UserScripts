@@ -63,7 +63,7 @@
                 $("#result").hide();
                 var marchSize = parseInt($("#marchsize").val());
                 console.log(marchSize);
-                if (marchSize < 100) {
+                if (marchSize < 100 || Number.isNaN(marchSize)) {
                     $("#error").text("Please enter a march size of 100 or more troops.").show();
                     return;
                 }
