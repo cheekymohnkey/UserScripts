@@ -62,6 +62,7 @@
                 $("#error").hide();
                 $("#result").hide();
                 var marchSize = parseInt($("#marchsize").val());
+                console.log(marchSize);
                 if (marchSize < 100) {
                     $("#error").text("Please enter a march size of 100 or more troops.").show();
                     return;
