@@ -86,8 +86,17 @@
                 $("#result").show();
 
             });
-            $(".dropdown-menu a").click(function(o) {
-                alert(o.id);
+            $(".dropdown-menu a").click(function(event) {
+                switch (event.target.id) {
+                    case "65827":
+                        $("#infantry").val("65");
+                        $("#riders").val("8");
+                        $("#hunters").val("27");
+                        break;
+                
+                    default:
+                        break;
+                }
             });
         });
     </script>
