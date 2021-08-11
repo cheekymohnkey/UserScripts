@@ -17,7 +17,7 @@
         <h2>State of Survival - Quick March Calculator</h2>
         <div class="mb-3">
             <label for="marchsize" class="formlabel">March Size</label><input type="number" id="marchsize"
-                class="form-control" placeholder="Example input" pattern="[0-9]">
+                class="form-control" placeholder="Example input" pattern="[0-9]*" inputmode="numeric">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="presets"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -30,11 +30,11 @@
                 </div>
             </div>
             <label for="infantry" class="formlabel">Infantry % (numbers only)</label><input type="number" id="infantry"
-                class="form-control" placeholder="Infantry % (numbers only)">
+                class="form-control" placeholder="Infantry % (numbers only)" pattern="[0-9]*" inputmode="numeric">
             <label for="riders" class="formlabel">Riders % (numbers only)</label><input type="number" id="riders"
-                class="form-control" placeholder="Riders % (numbers only)">
+                class="form-control" placeholder="Riders % (numbers only)" pattern="[0-9]*" inputmode="numeric">
             <label for="hunters" class="formlabel">Hunters % (numbers only)</label><input type="number" id="hunters"
-                class="form-control" placeholder="Hunters % (numbers only)">
+                class="form-control" placeholder="Hunters % (numbers only)" pattern="[0-9]*" inputmode="numeric">
             <button type="submit" class="btn btn-primary mb-3" id="calc">Show me the troop ratios</button>
         </div>
         <div class="alert alert-danger" role="alert" id="error"></div>
