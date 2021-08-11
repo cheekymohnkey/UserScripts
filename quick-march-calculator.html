@@ -40,10 +40,10 @@
         <div class="alert alert-danger" role="alert" id="error"></div>
         <div class="alert alert-warning" role="alert" id="result">
             <h3>Your march should look like this:</h3>
-            <p id="marchInfantry">
-            <p>
+            <p id="marchInfantry"></p>
             <p id="marchRiders"></p>
             <p id="marchHunters"></p>
+            <p id="totalTroops"></p>
         </div>
     </div>
 
@@ -79,15 +79,21 @@
                 var riders = Math.round(marchSize * ridersRatio);
                 var hunters = Math.round(marchSize * huntersRatio);
                 var calculatedMarchSize = infantry + riders + hunters;
-                if (calculatedMarchSize > marchSize) {
-                    riders = riders - 1;
+                
+                // Adjust for any rounding that meant we had too many or too few troops
+                var diff = marchSize - calculatedMarchSize;
+                if(diff < 0) {
+                    riders = riders - diff;
                 }
-                if (calculatedMarchSize < marchSize) {
-                    infantry = infantry + 1;
+                if(diff > 0)
+                {
+                    hunters = hunters - diff;
                 }
+                calculatedMarchSize = infantry + riders + hunters;
                 $("#marchInfantry").text(infantry + " Infantry");
                 $("#marchRiders").text(riders + " Riders");
                 $("#marchHunters").text(hunters + " Hunters");
+                $("#totalTroops").text("Total troops deployed " + calculatedMarchSize) + ".";
                 $("#result").show();
 
             });
