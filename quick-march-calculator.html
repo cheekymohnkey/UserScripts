@@ -82,6 +82,8 @@
                 
                 // Adjust for any rounding that meant we had too many or too few troops
                 var diff = marchSize - calculatedMarchSize;
+                console.log("Calculated March size: " + calculatedMarchSize + " Diff: " + diff);
+                console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
                 if(diff < 0) {
                     riders = riders - diff;
                 }
@@ -90,6 +92,9 @@
                     hunters = hunters - diff;
                 }
                 calculatedMarchSize = infantry + riders + hunters;
+                var diff = marchSize - calculatedMarchSize;
+                console.log("Calculated March size: " + calculatedMarchSize + " Diff: " + diff);
+                console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
                 $("#marchInfantry").text(infantry + " Infantry");
                 $("#marchRiders").text(riders + " Riders");
                 $("#marchHunters").text(hunters + " Hunters");
