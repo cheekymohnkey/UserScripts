@@ -19,8 +19,8 @@
             <label for="marchsize" class="formlabel">March Size</label><input type="number" id="marchsize"
                 class="form-control" placeholder="Example input" pattern="[0-9]*" inputmode="numeric">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="presets"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="presets" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
                     Choose a preset or type your own below
                 </button>
                 <div class="dropdown-menu" aria-labelledby="presets">
@@ -55,7 +55,31 @@
     <script src="bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
     <script>
+        var logger = function () {
+            var oldConsoleLog = null;
+            var pub = {};
+
+            pub.enableLogger = function enableLogger() {
+                if (oldConsoleLog == null)
+                    return;
+
+                window['console']['log'] = oldConsoleLog;
+            };
+
+            pub.disableLogger = function disableLogger() {
+                oldConsoleLog = console.log;
+                window['console']['log'] = function () { };
+            };
+
+            return pub;
+        }();
+
         $(document).ready(function () {
+            var version = 1.0;
+            console.log("SOS Quick March Calculator " + version);
+
+            logger.disableLogger();
+
             $("#error").hide();
             $("#result").hide();
             $("#calc").click(function () {
@@ -79,16 +103,15 @@
                 var riders = Math.round(marchSize * ridersRatio);
                 var hunters = Math.round(marchSize * huntersRatio);
                 var calculatedMarchSize = infantry + riders + hunters;
-                
+
                 // Adjust for any rounding that meant we had too many or too few troops
                 var diff = marchSize - calculatedMarchSize;
                 console.log("Calculated March size: " + calculatedMarchSize + " Diff: " + diff);
                 console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
-                if(diff < 0) {
+                if (diff < 0) {
                     riders = riders + diff;
                 }
-                if(diff > 0)
-                {
+                if (diff > 0) {
                     hunters = hunters - diff;
                 }
                 calculatedMarchSize = infantry + riders + hunters;
@@ -102,19 +125,19 @@
                 $("#result").show();
 
             });
-            $(".dropdown-menu a").click(function(event) {
+            $(".dropdown-menu a").click(function (event) {
                 switch (event.target.id) {
                     case "65827":
                         $("#infantry").val("65");
                         $("#riders").val("8");
                         $("#hunters").val("27");
                         break;
-                        case "53065":
+                    case "53065":
                         $("#infantry").val("5");
                         $("#riders").val("30");
                         $("#hunters").val("65");
                         break;
-                        case "601030":
+                    case "601030":
                         $("#infantry").val("60");
                         $("#riders").val("10");
                         $("#hunters").val("30");
