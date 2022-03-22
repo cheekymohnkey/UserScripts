@@ -1,0 +1,99 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>State of Survival - Oh Shit March Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>State of Survival - Oh Shit March Calculator</h2>
+        <p>Use this when you don&apos;t have enough infantry. It will set you up with a 60/10/30 march based on how many infantry you have.</p>
+        <div style="margin-top: 30px" class="mb-3">
+            <input style="margin-bottom: 10px" type="number" id="marchsize"
+                   class="form-control" placeholder="Enter your total high tier infantry" pattern="[0-9]*" inputmode="numeric">
+            <button type="submit" class="btn btn-primary mb-3" id="calc">Show me the troop ratios</button>
+        </div>
+        <div id="results">
+
+        </div>
+        
+    </div>
+
+    <script src="jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+    <script>
+        var logger = function () {
+            var oldConsoleLog = null;
+            var pub = {};
+
+            pub.enableLogger = function enableLogger() {
+                if (oldConsoleLog == null)
+                    return;
+
+                window['console']['log'] = oldConsoleLog;
+            };
+
+            pub.disableLogger = function disableLogger() {
+                oldConsoleLog = console.log;
+                window['console']['log'] = function () { };
+            };
+
+            return pub;
+        }();
+
+        $(document).ready(function () {
+            var version = "v1.0";
+            console.log("SOS Quick March Calculator " + version);
+
+            logger.disableLogger();
+
+            $("#error").hide();
+            $("#result").hide();
+            $("#calc").click(function () {
+                $("#result").hide();
+                var marchSize = parseInt($("#marchsize").val());
+                console.log(marchSize);
+                if (marchSize < 100 || Number.isNaN(marchSize)) {
+                    $("#error").text("Please enter a march size of 100 or more troops.").show();
+                    return;
+                }
+
+                var output = "";
+                    var infantry = marchSize;
+                    var hunters = Math.round(marchSize / 2);
+                    var riders = Math.round(hunters / 3);
+
+                    // Adjust for any rounding that meant we had too many or too few troops
+
+                    var calculatedMarchSize = infantry + riders + hunters;
+                    var diff = marchSize - calculatedMarchSize;
+                    
+                    calculatedMarchSize = infantry + riders + hunters;
+                    var diff = marchSize - calculatedMarchSize;
+                    console.log("Calculated Oh Shit march size: " + calculatedMarchSize + " Diff: " + diff);
+                    console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
+                    output += '<div class="alert alert-warning" role="alert" id="result"><h3>Your Ohhh-Shit march should look like this</h3>';
+                    output += '<p>' + infantry + ' Infantry</p>';
+                    output += '<p>' + riders + ' Riders</p>';
+                    output += '<p>' + hunters + ' Hunters</p>';
+                    output += '</div>';
+                $("#results").html(output);
+            });
+        });
+    </script>
+</body>
+
+</html>
