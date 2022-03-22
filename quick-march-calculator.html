@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>State of Survival - Quick March Calculator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <style>
     </style>
 </head>
@@ -15,45 +15,24 @@
 
     <div class="container">
         <h2>State of Survival - Quick March Calculator</h2>
-        <div class="mb-3">
-            <label for="marchsize" class="formlabel">March Size</label><input type="number" id="marchsize"
-                class="form-control" placeholder="Example input" pattern="[0-9]*" inputmode="numeric">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="presets" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Choose a preset or type your own below
-                </button>
-                <div class="dropdown-menu" aria-labelledby="presets">
-                    <a class="dropdown-item" href="#" id="65827">Optimal PVP Ratio 65/8/27</a>
-                    <a class="dropdown-item" href="#" id="53065">Common Trap Ratio 5/30/65</a>
-                    <a class="dropdown-item" href="#" id="601030">Old PVP Ratio 60/10/30</a>
-                </div>
-            </div>
-            <label for="infantry" class="formlabel">Infantry % (numbers only)</label><input type="number" id="infantry"
-                class="form-control" placeholder="Infantry % (numbers only)" pattern="[0-9]*" inputmode="numeric">
-            <label for="riders" class="formlabel">Riders % (numbers only)</label><input type="number" id="riders"
-                class="form-control" placeholder="Riders % (numbers only)" pattern="[0-9]*" inputmode="numeric">
-            <label for="hunters" class="formlabel">Hunters % (numbers only)</label><input type="number" id="hunters"
-                class="form-control" placeholder="Hunters % (numbers only)" pattern="[0-9]*" inputmode="numeric">
+        <div style="margin-top: 30px" class="mb-3">
+            <input style="margin-bottom: 10px" type="number" id="marchsize"
+                   class="form-control" placeholder="Enter your march size" pattern="[0-9]*" inputmode="numeric">
             <button type="submit" class="btn btn-primary mb-3" id="calc">Show me the troop ratios</button>
         </div>
-        <div class="alert alert-danger" role="alert" id="error"></div>
-        <div class="alert alert-warning" role="alert" id="result">
-            <h3>Your march should look like this:</h3>
-            <p id="marchInfantry"></p>
-            <p id="marchRiders"></p>
-            <p id="marchHunters"></p>
-            <p id="totalTroops"></p>
+        <div id="results">
+
         </div>
+        
     </div>
 
     <script src="jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
     <script src="popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>
     <script src="bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>
     <script>
         var logger = function () {
             var oldConsoleLog = null;
@@ -74,6 +53,13 @@
             return pub;
         }();
 
+        var configurations =
+            [
+                { "title": "Traditional PVP", "infantry": 0.6, "riders": 0.1, "hunters": 0.3 },
+                { "title": "Catzilla PVP", "infantry": 0.65, "riders": 0.08, "hunters": 0.27 },
+                { "title": "Kratos PVP", "infantry": 0.65, "riders": 0.12, "hunters": 0.23 }
+            ];
+
         $(document).ready(function () {
             var version = "v1.0";
             console.log("SOS Quick March Calculator " + version);
@@ -91,61 +77,38 @@
                     $("#error").text("Please enter a march size of 100 or more troops.").show();
                     return;
                 }
-                var infantryRatio = parseInt($("#infantry").val()) / 100;
-                var ridersRatio = parseInt($("#riders").val()) / 100;
-                var huntersRatio = parseInt($("#hunters").val()) / 100;
-                var total = infantryRatio + ridersRatio + huntersRatio;
-                if (total != 1) {
-                    $("#error").text("Please ensure the total of Infantry, Riders and Hunters is 100").show();
-                    return;
-                }
-                var infantry = Math.round(marchSize * infantryRatio);
-                var riders = Math.round(marchSize * ridersRatio);
-                var hunters = Math.round(marchSize * huntersRatio);
-                var calculatedMarchSize = infantry + riders + hunters;
 
-                // Adjust for any rounding that meant we had too many or too few troops
-                var diff = marchSize - calculatedMarchSize;
-                console.log("Calculated March size: " + calculatedMarchSize + " Diff: " + diff);
-                console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
-                if (diff < 0) {
-                    riders = riders + diff;
-                }
-                if (diff > 0) {
-                    hunters = hunters - diff;
-                }
-                calculatedMarchSize = infantry + riders + hunters;
-                var diff = marchSize - calculatedMarchSize;
-                console.log("Calculated March size: " + calculatedMarchSize + " Diff: " + diff);
-                console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
-                $("#marchInfantry").text(infantry + " Infantry");
-                $("#marchRiders").text(riders + " Riders");
-                $("#marchHunters").text(hunters + " Hunters");
-                $("#totalTroops").text("Total troops deployed " + calculatedMarchSize) + ".";
-                $("#result").show();
+                var output = "";
+                for (var i = 0; i < configurations.length; i++) {
+                    var configuration = configurations[i];
+                    var infantry = Math.round(marchSize * configuration.infantry);
+                    var riders = Math.round(marchSize * configuration.riders);
+                    var hunters = Math.round(marchSize * configuration.hunters);
 
-            });
-            $(".dropdown-menu a").click(function (event) {
-                switch (event.target.id) {
-                    case "65827":
-                        $("#infantry").val("65");
-                        $("#riders").val("8");
-                        $("#hunters").val("27");
-                        break;
-                    case "53065":
-                        $("#infantry").val("5");
-                        $("#riders").val("30");
-                        $("#hunters").val("65");
-                        break;
-                    case "601030":
-                        $("#infantry").val("60");
-                        $("#riders").val("10");
-                        $("#hunters").val("30");
-                        break;
-                    default:
-                        break;
+                    // Adjust for any rounding that meant we had too many or too few troops
+
+                    var calculatedMarchSize = infantry + riders + hunters;
+                    var diff = marchSize - calculatedMarchSize;
+                    console.log("Calculated March size: " + calculatedMarchSize + " Diff: " + diff);
+                    console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
+                    if (diff < 0) {
+                        riders = riders + diff;
+                    }
+                    if (diff > 0) {
+                        hunters = hunters - diff;
+                    }
+                    calculatedMarchSize = infantry + riders + hunters;
+                    var diff = marchSize - calculatedMarchSize;
+                    console.log("Calculated March size for" + configuration.title + ": " + calculatedMarchSize + " Diff: " + diff);
+                    console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
+                    output += '<div class="alert alert-warning" role="alert" id="result"><h3>Your ';
+                    output += configuration.title + ' march should look like this:</h3>';
+                    output += '<p>' + infantry + ' Infantry</p>';
+                    output += '<p>' + riders + ' Riders</p>';
+                    output += '<p>' + hunters + ' Hunters</p>';
+                    output += '</div>';
                 }
-                $("#calc").click();
+                $("#results").html(output);
             });
         });
     </script>
