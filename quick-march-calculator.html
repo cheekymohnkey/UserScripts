@@ -14,8 +14,9 @@
 <body>
 
     <div class="container">
-        <h2>State of Survival - Quick March Calculator</h2>
+        <h2>State of Survival - Quick March Calculator - Attack, Garrison and Defense</h2>
 		<p style="margin-top: 20px;"><strong>Quick note.</strong> The hero choices are the best choices if you are leading the rally. There are better hero choices but they are not available in State 1047 yet. For example the best PVP infantry attack hero for most generations is Kira but we can't get Kira yet.</p>
+		<p>Ratios and hero choices from from the JUMPinGorilla Discord <a href="https://discord.gg/jumpingorilla">https://discord.gg/jumpingorilla</a></p>
         <div style="margin-top: 30px" class="mb-3">
             <input style="margin-bottom: 10px" type="number" id="marchsize"
                    class="form-control" placeholder="Enter your march size" pattern="[0-9]*" inputmode="numeric">
@@ -32,6 +33,17 @@
         <div id="results">
 
         </div>
+		<div id="hints">
+		<h4>How to use:</h4>
+		<ol>
+		<li>First step is to get your march size, see the screen shot below (in this case 107,540), then fill that into the <i>Enter your march size</i> size box above.</li>
+		<li>Next if you need to know which heroes you should send as rally lead, choose the correct hero generation to get the best heroes.</li>
+		<li>Tap the <i>Show me the troop ratios</i> button</li>
+		<li>Now fill in how many of each troop type you will need. If you don't have enough of your best troop tier you will need to add enough from the next troop tier. It is important to maintain the ratio than getting more of your best tier into the march.</li>
+		<li>Make sure have the right heroes selected, and finally tap the Save button and select one of your formation slots.</li>
+		</ol>
+		<img src="march-configuration.jpg" width="100%" alt="March configuration screen shot" />
+		</div>
         
     </div>
 
@@ -64,8 +76,7 @@
 
         var ratios =
             [
-                { "title": "60/10/30", "infantry": 0.6, "riders": 0.1, "hunters": 0.3, "pvpattack": [1,2,4,5], "pvpdefense": [1,2,3,4], "trap": [] },
-                { "title": "60/15/25", "infantry": 0.6, "riders": 0.15, "hunters": 0.25, "pvpattack": [3], "pvpdefense": [5], "trap": [] },
+                { "title": "60/15/25", "infantry": 0.6, "riders": 0.15, "hunters": 0.25, "pvpattack": [1,2,3,4,5], "pvpdefense": [1,2,3,4,5], "trap": [] },
                 { "title": "60/20/20 Behemoth", "infantry": 0.6, "riders": 0.2, "hunters": 0.2, "pvpattack": [6,7,8,9,10,11,12], "pvpdefense": [6,7,8,9,10,11,12], "trap": [] },
 				{ "title": "5/30/65", "infantry": 0.05, "riders": 0.30, "hunters": 0.65, "pvpattack": [], "pvpdefense": [], "trap": [1,2,3] },
 				{ "title": "5/15/80", "infantry": 0.05, "riders": 0.15, "hunters": 0.8, "pvpattack": [], "pvpdefense": [], "trap": [4,5,6] }
