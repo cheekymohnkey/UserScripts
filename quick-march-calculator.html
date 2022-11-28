@@ -15,9 +15,18 @@
 
     <div class="container">
         <h2>State of Survival - Quick March Calculator</h2>
+		<p style="margin-top: 20px;"><strong>Quick note.</strong> The hero choices are the best choices if you are leading the rally. There are better hero choices but they are not available in State 1047 yet. For example the best PVP infantry attack hero for most generations is Kira but we can't get Kira yet.</p>
         <div style="margin-top: 30px" class="mb-3">
             <input style="margin-bottom: 10px" type="number" id="marchsize"
                    class="form-control" placeholder="Enter your march size" pattern="[0-9]*" inputmode="numeric">
+			<select id="generation"  class="form-control" style="margin-bottom: 10px">
+			   <option value="1">Generation 1</option>
+			   <option value="2" selected>Generation 2</option>
+			   <option value="3">Generation 3</option>
+			   <option value="4">Generation 4</option>
+			   <option value="5">Generation 5</option>
+			   <option value="6">Generation 6</option>
+			</select>
             <button type="submit" class="btn btn-primary mb-3" id="calc">Show me the troop ratios</button>
         </div>
         <div id="results">
@@ -53,64 +62,113 @@
             return pub;
         }();
 
-        var configurations =
+        var ratios =
             [
-                { "title": "60/10/30 Attack Gen 1,2,4,5, Defense 1,2,3,4 - Source Kratos", "infantry": 0.6, "riders": 0.1, "hunters": 0.3 },
-                { "title": "60/15/25 Attack Gen 3, Defense 5 - Source Kratos", "infantry": 0.6, "riders": 0.15, "hunters": 0.25 },
-                { "title": "60/20/20 The only formation Gen 6+ with Behemoth - Source Kratos", "infantry": 0.6, "riders": 0.2, "hunters": 0.2 },
-				{ "title": "5/30/65 Trap Gen 1-3 - Source JUMP", "infantry": 0.05, "riders": 0.30, "hunters": 0.65 },
-				{ "title": "5/15/80 Trap Gen 4-6 - Source JUMP", "infantry": 0.05, "riders": 0.15, "hunters": 0.8 }
+                { "title": "60/10/30", "infantry": 0.6, "riders": 0.1, "hunters": 0.3, "pvpattack": [1,2,4,5], "pvpdefense": [1,2,3,4], "trap": [] },
+                { "title": "60/15/25", "infantry": 0.6, "riders": 0.15, "hunters": 0.25, "pvpattack": [3], "pvpdefense": [5], "trap": [] },
+                { "title": "60/20/20 Behemoth", "infantry": 0.6, "riders": 0.2, "hunters": 0.2, "pvpattack": [6,7,8,9,10,11,12], "pvpdefense": [6,7,8,9,10,11,12], "trap": [] },
+				{ "title": "5/30/65", "infantry": 0.05, "riders": 0.30, "hunters": 0.65, "pvpattack": [], "pvpdefense": [], "trap": [1,2,3] },
+				{ "title": "5/15/80", "infantry": 0.05, "riders": 0.15, "hunters": 0.8, "pvpattack": [], "pvpdefense": [], "trap": [4,5,6] }
             ];
+			
+		var heroes = [
+			{"pvpattack": "", "pvpdefense": "", "trap": ""},
+			{"pvpattack": "Ray, Maddie, Lucky/Sarge (Lucky if stats way higher than Sarge", "pvpdefense": "Ray/Nikola, Ghost, Sarge", "trap": "Nanami, Maddie, Eva"},
+			{"pvpattack": "Ray, Trish, Jeb(Mikoto if you have)", "pvpdefense": "Ray/Nikola, Ghost, Sarge", "trap": "Nanami, Maddie, Jeb"},
+			{"pvpattack": "Ash, Miho, Zoe(Mikoto if you have)", "pvpdefense": "Ray/Nikola, Ghost, Sarge", "trap": "Nanami, Maddie, Ash"},
+			{"pvpattack": "Brooke, Miho, Tyler", "pvpdefense": "Ray/Nikola, Ghost, Roxy", "trap": "Nanami, Julie, Tyler"},
+			{"pvpattack": "Emma, Preferably the Gen 4 rider for stats, Roxy", "pvpdefense": "Ray/Nikola, Ghost, Roxy", "trap": "Nanami, Tweak, Tyler"},
+			{"pvpattack": "Jess, Martha, Roxy", "pvpdefense": "Ray/Nikola, Martha, Roxy", "trap": "Nanami, Tweak, Tyler"}
+		];
 
         $(document).ready(function () {
             var version = "v1.0";
-            console.log("SOS Quick March Calculator " + version);
+            var marchSize = 0;
+			var output = "";
+			console.log("SOS Quick March Calculator " + version);
 
             logger.disableLogger();
 
             $("#error").hide();
             $("#result").hide();
             $("#calc").click(function () {
-                $("#error").hide();
+                output = "";
+				$("#error").hide();
                 $("#result").hide();
-                var marchSize = parseInt($("#marchsize").val());
-                console.log(marchSize);
+                marchSize = parseInt($("#marchsize").val());
+                var generation = parseInt($("#generation").val());
                 if (marchSize < 100 || Number.isNaN(marchSize)) {
                     $("#error").text("Please enter a march size of 100 or more troops.").show();
                     return;
                 }
 
-                var output = "";
-                for (var i = 0; i < configurations.length; i++) {
-                    var configuration = configurations[i];
-                    var infantry = Math.round(marchSize * configuration.infantry);
-                    var riders = Math.round(marchSize * configuration.riders);
-                    var hunters = Math.round(marchSize * configuration.hunters);
-
-                    // Adjust for any rounding that meant we had too many or too few troops
-
-                    var calculatedMarchSize = infantry + riders + hunters;
-                    var diff = marchSize - calculatedMarchSize;
-                    console.log("Calculated March size: " + calculatedMarchSize + " Diff: " + diff);
-                    console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
-                    if (diff < 0) {
-                        riders = riders + diff;
-                    }
-                    if (diff > 0) {
-                        hunters = hunters - diff;
-                    }
-                    calculatedMarchSize = infantry + riders + hunters;
-                    var diff = marchSize - calculatedMarchSize;
-                    console.log("Calculated March size for" + configuration.title + ": " + calculatedMarchSize + " Diff: " + diff);
-                    console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
-                    output += '<div class="alert alert-warning" role="alert" id="result"><h3>' + configuration.title + '</h3>';
-                    output += '<p>' + infantry + ' Infantry</p>';
-                    output += '<p>' + riders + ' Riders</p>';
-                    output += '<p>' + hunters + ' Hunters</p>';
-                    output += '</div>';
+                
+                
+				// pvp attack
+				
+				for (var i = 0; i < ratios.length; i++) {
+                    
+					var configuration = ratios[i];
+                    for (var j = 0; j < configuration.pvpattack.length; j++) {
+					   if(generation == configuration.pvpattack[j]) {
+						output += WriteOutput(configuration, "PVP attack ratio: ", heroes[generation].pvpattack);
+					   }
+					}
                 }
-                $("#results").html(output);
+				
+				// pvp defense
+				
+                for (var i = 0; i < ratios.length; i++) {
+                    
+					var configuration = ratios[i];
+                    for (var j = 0; j < configuration.pvpdefense.length; j++) {
+					   if(generation == configuration.pvpdefense[j]) {
+						output += WriteOutput(configuration, "PVP garrison defense ratio: ", heroes[generation].pvpdefense);
+					   }
+					}
+                }
+				
+				// trap
+				
+				for (var i = 0; i < ratios.length; i++) {
+                    
+					var configuration = ratios[i];
+                    for (var j = 0; j < configuration.trap.length; j++) {
+					   if(generation == configuration.trap[j]) {
+						output += WriteOutput(configuration, "Trap ratio: ", heroes[generation].trap);
+					   }
+					}
+                }
+				
+				$("#results").html(output);
             });
+			function WriteOutput(configuration, marchType, heroes) {
+				var temp = "";
+				var infantry = Math.round(marchSize * configuration.infantry);
+				var riders = Math.round(marchSize * configuration.riders);
+				var hunters = Math.round(marchSize * configuration.hunters);
+
+				// Adjust for any rounding that meant we had too many or too few troops
+
+				var calculatedMarchSize = infantry + riders + hunters;
+				var diff = marchSize - calculatedMarchSize;
+				console.log("Calculated March size: " + calculatedMarchSize + " Diff: " + diff);
+				console.log("Infantry: " + infantry + " Riders: " + riders + " Hunters: " + hunters);
+				if (diff < 0) {
+					riders = riders + diff;
+				}
+				if (diff > 0) {
+					hunters = hunters - diff;
+				}
+				calculatedMarchSize = infantry + riders + hunters;
+				var diff = marchSize - calculatedMarchSize;
+				temp += '<div class="alert alert-warning" role="alert" id="result"><h3>' + marchType + ' ' + configuration.title + ' Best Heroes: ' + heroes + '</h3>';
+				temp += '<p>' + infantry + ' Infantry</p>';
+				temp += '<p>' + riders + ' Riders</p>';
+				temp += '<p>' + hunters + ' Hunters</p>';
+				temp += '</div>';
+				return temp;
+			}
         });
     </script>
 </body>
