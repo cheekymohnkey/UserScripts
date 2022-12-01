@@ -1,0 +1,43 @@
+<html>
+   <head>
+      <title>JavaScript Dates</title>
+	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+   </head>
+   <body>
+	  <div class="container-fluid">
+	  <h1>Calculate what the UTC Time will be x hours and minutes from local time.</h1>
+	  <p>Just enter how many hours and or minutes you want to add and hit calculate.</p>
+	  <input type="text" value="0" id="hours" inputmode="numeric"> How many hours to add (can be greater than 24): <br>
+	  <input type="text" id="minutes" value="0" inputmode="numeric"> How many minutes to add: <br>
+	  <input type="button" onclick="Calculate();" value="Calculate" /><br>
+	  <div id="output"></div>
+	  </div>
+	  <script>
+         function Calculate() {
+		 var outputString = "";
+		 var hours = 0;
+		 var minutes = 0;
+		 if(hours = document.getElementById("hours").value !== "")
+		    hours = document.getElementById("hours").value;
+		 if(document.getElementById("minutes").value !== "")
+		    minutes = document.getElementById("minutes").value;
+		 var dt = new Date();
+         
+		 if(hours == 0 && minutes == 0) {
+		    outputString += "You need to add something :) You have zero for hours and minutes";
+		}
+		else {
+			 var parsedHours = parseInt(hours);
+			 var parsedMinutes =  parseInt(minutes);
+			 dt.setHours(dt.getHours() + parsedHours);
+			 dt.setMinutes(dt.getMinutes() + parsedMinutes);
+			 outputString += ("<br>Updated Date: "+dt);
+			 outputString += ("<br>UTC Date: " + dt.toUTCString());
+		}
+		 console.log(outputString);
+		document.getElementById("output").innerHTML=outputString;
+		 }
+      </script>
+   </body>
+</html>
